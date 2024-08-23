@@ -30,6 +30,7 @@ setup:
 	@uv lock
 	@uv sync
 	@chmod u+x ./scripts/branch_names.sh
+	@git init
 	@uv run pre-commit install
 	@mkdir -p data data/raw data/processed data/final
 
