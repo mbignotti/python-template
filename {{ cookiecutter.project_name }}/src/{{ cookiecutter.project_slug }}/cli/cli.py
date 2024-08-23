@@ -21,4 +21,4 @@ app = typer.Typer()
 
 @app.callback(invoke_without_command=True)
 def main() -> None:
-    logger.info(f"Welcome to the {{ cookiecutter.project_slug }} project! \n\n--- Version {__version__} ---")
+    logger.info(f"Welcome to the {{ cookiecutter.project_name }} project! \n\n--- Version {__version__} ---")

@@ -1,5 +1,5 @@
 [project]
-name = "{{ cookiecutter.project_slug }}"
+name = "{{ cookiecutter.project_name }}"
 version = "0.0.1"
 description = "{{ cookiecutter.author }}"
 authors = [
@@ -18,6 +18,7 @@ dependencies = [
     "loguru>=0.7.2,<0.8",
 ]
 
+
 [project.optional-dependencies]
 test = [
     "pytest>=8.3.2",
@@ -30,6 +31,7 @@ notebooks = [
 ]
 all = ["{{ cookiecutter.project_slug }}[test,notebooks]"]
 
+
 [tool.uv]
 dev-dependencies = [
     "mypy>=1.11.1",
@@ -38,9 +40,15 @@ dev-dependencies = [
     "ruff>=0.6.2"
 ]
 
+
+[project.scripts]
+{{ cookiecutter.project_slug }} = "{{ cookiecutter.project_slug }}:main"
+
+
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
+
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/{{ cookiecutter.project_slug }}"]

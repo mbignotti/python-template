@@ -1,16 +1,11 @@
 -include .env
-
+{% raw %}
 # ========================================== Config ========================================== {{{
 
 export SHELL              	:= /bin/bash
 export PYTHON_VERSION     	= 3.12
 export PROJECT_ROOT			= $(PWD)
 export TESTS_PATH			= $(PROJECT_ROOT)/tests/
-
-
-TARGETS = dev test notebooks
-UPDATE_TARGET_REQUIREMENTS = $(addprefix update-deps-,$(TARGETS))
-INSTALL_TARGET_REQUIREMENTS = $(addprefix install-,$(TARGETS))
 
 # }}}
 
@@ -29,12 +24,12 @@ default:
 .ONESHELL:
 .PHONY: setup
 setup:
-	@curl -LsSf https://astral.sh/uv/install.sh | sh
 	@uv python install $(PYTHON_VERSION)
 	@uv python pin $(PYTHON_VERSION)
+	@cp .env.sample .env
 	@uv lock
 	@uv sync
-	@chmod u+x scripts/branch_names.sh
+	@chmod u+x ./scripts/branch_names.sh
 	@uv run pre-commit install
 	@mkdir -p data data/raw data/processed data/final
 
@@ -49,18 +44,19 @@ lint:
 
 
 # ========================================== Tests =========================================== {{{
-
+{% endraw %}
 .PHONY: test
 test:
 	@uv run pytest --junit-xml=test-reports/junit.xml --cov-report html:test-reports/coverage-report --cov={{ cookiecutter.project_slug }} $(TESTS_PATH) --html-report=test-reports/html-report
-
+{% raw %}
 # }}}
 
 
 # ========================================== Build =========================================== {{{
 
-.PHONY: Build
+.PHONY: build
 build:
-	uvx --from build pyproject-build --installer uv
+	@uvx --from build pyproject-build --installer uv
 
 # }}}
+{% endraw %}
